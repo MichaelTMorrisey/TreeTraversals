@@ -1,8 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+This program written by Michael Morrisey
+for CSCI 211 at CCP with Chuck Herbert
+last updated 3/23/16
+
+This package contains 3 classes: this Tree class, an executable file, and
+a Node class.  This Tree class contains 3 properties (root, height, and size),
+constuctors, accessor methods, 3 tree traversal methods (preorder, inorder, 
+and postorder), a max and a min method to find the largest and smallest values 
+in the tree, and a search method to determine whether the tree contains a 
+specified int.
+*/
 package treetraversals;
 
 /**
@@ -40,8 +47,9 @@ public class Tree
         //an int to keep track of the # of levels
         int levels;
         
-        //set levels to zero, to start
-        levels = 0;
+        //set size to zero, to start
+        size = 0;
+        
         
         //step through the array and add each int to the tree
         for (int element : myArr)
@@ -51,6 +59,8 @@ public class Tree
             //add the int to the new node
             myNode = new Node(element);
             
+            //set levels to 0 to start
+            levels = 0;
             
             //if there is no root, add this as the root
             if (size == 0)
@@ -102,8 +112,9 @@ public class Tree
             
             //if levels is now larger than height, then update height
             if (height < levels)
+            {
                 height = levels;
-            
+            }
             //increment size for each element in the array
             size++;
         }//end for()
@@ -137,7 +148,7 @@ public class Tree
     //child (if it is not null) and then again using the current node's right child
     public void preorder(Node myNode)
     {
-        System.out.print(myNode.getData());
+        System.out.print(myNode.getData() + " ");
         if(myNode.getLeft()!=null)
             preorder(myNode.getLeft());
         if(myNode.getRight()!=null)
@@ -155,7 +166,7 @@ public class Tree
         
         if(myNode.getLeft()!=null)
             inorder(myNode.getLeft());
-        System.out.print(myNode.getData());
+        System.out.print(myNode.getData() + " ");
         if(myNode.getRight()!=null)
             inorder(myNode.getRight());
     }//end inorder()
@@ -178,13 +189,97 @@ public class Tree
     //************************************************************************
   
     //search() will tell us whether an integer passed as a parameter is in the tree
+    //search() uses an inorder tree traversal
     public boolean search(int myInt)
     {
+        //a boolean to return
         boolean existence;
-        existence = false;
-        
-        
+        existence = searchTraversal(root, myInt);
+        return existence;
         
     }//end search
+    
+    //searchTraversal() accepts a Node and an int as parameters, considers the node
+    //as the root of a tree, and searches that tree for the int. This method 
+    //calls itself recursively and uses the preorder search
+    //algorithm. This method returns a boolean value.  If the int is found, 
+    //this method returns True, otherwise it returns False
+    public boolean searchTraversal(Node myNode, int findThis)
+    {
+        boolean found;
+        found = false;
+        //consider the current node.  if the data is what we are looking for,
+        //set the boolean "found" to True
+        if (myNode.getData() == findThis)
+            found = true;
+        else
+        {
+            //recursively call on left child
+            if(myNode.getLeft()!=null)
+                found = searchTraversal(myNode.getLeft(), findThis);
+            //recursively call on right child
+            if(found == false && myNode.getRight()!=null)
+                found = searchTraversal(myNode.getRight(), findThis);
+        }//end else
+        
+        return found;
+    }//end searchTraversal()
+    
+    //*********************************************************************
+    //max() will return the max value in the tree
+    public int max()
+    {
+        //an int to return
+        int result;
+        result = maxTraversal(root, root.getData());
+        return result;
+    }//end max()
+    
+    public int maxTraversal(Node myNode, int currentMax)
+    {
+        
+        //consider the current node.  if the data is greater than currentMax,
+        //update currentMax
+        if (myNode.getData() > currentMax)
+            currentMax = myNode.getData();
+        //recursively call on left child
+        if(myNode.getLeft()!=null)
+            currentMax = maxTraversal(myNode.getLeft(), currentMax);
+        //recursively call on right child
+        if(myNode.getRight()!=null)
+            currentMax = maxTraversal(myNode.getRight(), currentMax);
+        
+        return currentMax;
+    }//end maxTraversal
+    
+    //*********************************************************************
+    //min() will return the min value in the tree
+    public int min()
+    {
+        //an int to return
+        int result;
+        result = minTraversal(root, root.getData());
+        return result;
+    }//end max()
+    
+    public int minTraversal(Node myNode, int currentMin)
+    {
+        
+        //consider the current node.  if the data is less than currentMin,
+        //update currentMin
+        if (myNode.getData() < currentMin)
+            currentMin = myNode.getData();
+        //recursively call on left child
+        if(myNode.getLeft()!=null)
+            currentMin = minTraversal(myNode.getLeft(), currentMin);
+        //recursively call on right child
+        if(myNode.getRight()!=null)
+            currentMin = minTraversal(myNode.getRight(), currentMin);
+        
+        return currentMin;
+    }//end minTraversal
+    
+    //*****************************************************************
+    
     
 }//end class Tree
