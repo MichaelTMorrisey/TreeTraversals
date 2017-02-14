@@ -1,8 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+This program written by Michael Morrisey
+for CSCI 211 at CCP with Chuck Herbert
+last updated 3/23/16
+
+This package contains 3 classes: this Node class, an executable file, and
+a Tree class.  This Node class contains three properties (data, leftChild,
+and rightChild), constructors, accessor and mutator methods, and a toString method.
+*/
 package treetraversals;
 
 /**
